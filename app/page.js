@@ -1,5 +1,5 @@
+import Topicslist from '@/components/Topicslist';
 import React from 'react';
-import Topicslist from './components/Topicslist';
 
 const Page = () => {
   return (

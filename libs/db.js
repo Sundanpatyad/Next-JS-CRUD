@@ -1,14 +1,19 @@
 import mongoose from "mongoose";
 
-
-
-const connectDB = async ()=>{
-    try{
-        await mongoose.connect("mongodb+srv://user1:xyz123abc@cluster0.vrj0gwa.mongodb.net/NEXT_CRUD?retryWrites=true&w=majority&appName=Cluster0&tls=true")
-        console.log("Connected")
-    }catch(e){
-        console.log(e);
+const connectDB = async () => {
+    try {
+        const mongoUri = process.env.MONGODB_URL;
+        if (!mongoUri) {
+            throw new Error("MONGO_URI is not defined in .env file");
+        }
+        await mongoose.connect(mongoUri, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+        });
+        console.log("Connected to MongoDB");
+    } catch (e) {
+        console.error("Error connecting to MongoDB:", e);
     }
-}
+};
 
 export default connectDB;
