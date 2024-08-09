@@ -1,11 +1,10 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
 import EditTopicForm from '@/components/EditTopicForm';
 
-const Page = () => {
-  const { id } = useParams();
+const Page = ({params}) => {
+  const {id} = params;
   const [topic, setTopic] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
