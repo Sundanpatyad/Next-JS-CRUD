@@ -1,0 +1,1 @@
+ export const URL = "https://next-js-crud-9c56.vercel.app/";

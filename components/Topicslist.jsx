@@ -11,7 +11,7 @@ const Topicslist = () => {
     useEffect(() => {
         const fetchTopics = async () => {
             try {
-                const response = await fetch('http://localhost:3000/api/topics', { cache: 'no-store' });
+                const response = await fetch(`${URL}/api/topics`, { cache: 'no-store' });
                 if (!response.ok) {
                     console.error("Error in fetching data");
                     return;

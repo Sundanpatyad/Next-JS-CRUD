@@ -1,6 +1,7 @@
 'use client'
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
+import { URL } from './api';
 
 const EditTopicForm = ({ title, description, id }) => {
   const [newTitle, setNewTitle] = useState(title);
@@ -10,9 +11,10 @@ const EditTopicForm = ({ title, description, id }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(newTitle, newDescription, id);
+    
 
     try {
-      const res = await fetch(`http://localhost:3000/api/topics/${id}`, {
+      const res = await fetch(`${URL}/api/topics/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

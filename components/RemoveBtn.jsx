@@ -9,7 +9,7 @@ const RemoveBtn = ({id}) => {
         const confirmed = confirm("Are You Sure You Want To Delete a Topic");
         
         if(confirmed){
-            await fetch(`http://localhost:3000/api/topics?id=${id}`,{
+            await fetch(`${URL}/api/topics?id=${id}`,{
                 method: 'DELETE',
             })
         }
