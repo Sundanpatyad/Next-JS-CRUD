@@ -1,38 +1,35 @@
-import EditTopicForm from '@/components/EditTopicForm'
-import React from 'react'
+import EditTopicForm from '@/components/EditTopicForm';
+import React from 'react';
 
-const getTopicById = async (id) => {
+export async function getServerSideProps(context) {
+  const { id } = context.params;
+  
   try {
-    const res = await fetch(`/api/topics/${id}`, {
+    const res = await fetch(`http://localhost:3000/api/topics/${id}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
       },
-      cache: 'no-store',
     });
-    
+
     if (!res.ok) {
-      throw new Error('Failed to fetch Topic');
+      throw new Error('Failed to fetch topic');
     }
 
     const topicData = await res.json();
-    return topicData;
-
+    return { props: { topic: topicData.topic } };
   } catch (error) {
-    console.log(error);
-    return null;
+    console.error(error);
+    return { props: { topic: null } }; // Return null if there's an error
   }
 }
 
-const Page = async ({ params }) => {
-  const { id } = params;
-  const topicData = await getTopicById(id);
-
-  if (!topicData) {
+const Page = ({ topic }) => {
+  if (!topic) {
     return <div>Failed to load topic data.</div>;
   }
 
-  const { title, description } = topicData.topic;
+  const { id, title, description } = topic;
 
   return (
     <div>
