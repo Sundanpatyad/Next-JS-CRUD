@@ -1,31 +1,51 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import EditTopicForm from '@/components/EditTopicForm';
 
-async function fetchTopicById(id) {
-  try {
-    const res = await fetch(`/api/topics/${id}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      cache: 'no-store', // Ensures data is fetched fresh each time
-    });
+const Page = () => {
+  const { id } = useParams();
+  const [topic, setTopic] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-    if (!res.ok) {
-      throw new Error(`Failed to fetch topic: ${res.statusText}`);
-    }
+  useEffect(() => {
+    const fetchTopicById = async () => {
+      try {
+        setIsLoading(true);
+        const res = await fetch(`/api/topics/${id}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          cache: 'no-store',
+        });
 
-    const topicData = await res.json();
-    return topicData.topic;
+        if (!res.ok) {
+          throw new Error(`Failed to fetch topic: ${res.statusText}`);
+        }
 
-  } catch (error) {
-    console.error('Error fetching topic:', error);
-    return null;
+        const topicData = await res.json();
+        setTopic(topicData.topic);
+      } catch (error) {
+        console.error('Error fetching topic:', error);
+        setError(error.message);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchTopicById();
+  }, [id]);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
   }
-}
 
-const Page = async ({ params }) => {
-  const { id } = params;
-  const topic = await fetchTopicById(id);
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   if (!topic) {
     return <div>Failed to load topic data.</div>;
