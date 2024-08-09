@@ -14,7 +14,7 @@ const Page = () => {
 
 const HeroSection = () => {
   return (
-    <section className="flex flex-col items-center justify-center text-center">
+    <section className="flex pt-10 flex-col items-center justify-center text-center">
       <h1 className="text-4xl md:text-5xl  font-bold mb-6">
         NEXT JS CRUD APP
       </h1>
